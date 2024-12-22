@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "831696047330",
+    "project_id": "ecommerce-cloud-f6b64",
+    "storage_bucket": "ecommerce-cloud-f6b64.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:831696047330:android:25f7cd6510ae10dbd7a2bb",
+        "android_client_info": {
+          "package_name": "com.ritikshaw.kolinmvvm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwLdJW10p2wFTIC4QTQJINO8zvNWoYHMM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

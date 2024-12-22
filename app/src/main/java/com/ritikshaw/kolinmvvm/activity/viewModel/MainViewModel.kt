@@ -1,0 +1,68 @@
+package com.ritikshaw.kolinmvvm.activity.viewModel
+
+
+import android.util.Log.e
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.ritikshaw.kolinmvvm.activity.model.BrandModel
+import com.ritikshaw.kolinmvvm.activity.model.SliderModel
+
+class MainViewModel() : ViewModel() {
+
+    private val firebaseDatabase = FirebaseDatabase.getInstance()
+
+    private val _banner = MutableLiveData<List<SliderModel>>()
+    val banner : LiveData<List<SliderModel>> = _banner
+
+    private val _brand = MutableLiveData<List<BrandModel>>()
+    val brand : LiveData<List<BrandModel>> = _brand
+
+    fun loadBanners(){
+        val bannerRef = firebaseDatabase.getReference("Banner")
+        bannerRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val bannerList = mutableListOf<SliderModel>()
+                for (bannerSnapshot in snapshot.children) {
+                    val list = bannerSnapshot.getValue(SliderModel::class.java)
+                    if (list!=null){
+                        bannerList.add(list)
+                        e("bannerSnapshot","$list")
+                    }
+                }
+
+                _banner.value = bannerList
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                e("error",error.toString())
+            }
+        })
+    }
+
+    fun loadBrands(){
+        val bannerRef = firebaseDatabase.getReference("Category")
+        bannerRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val brandList = mutableListOf<BrandModel>()
+                for (brandSnapshot in snapshot.children) {
+                    val list = brandSnapshot.getValue(BrandModel::class.java)
+                    if (list!=null){
+                        brandList.add(list)
+                        e("brandSnapshot","$list")
+                    }
+                }
+
+                _brand.value = brandList
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                e("error",error.toString())
+            }
+        })
+    }
+}

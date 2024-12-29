@@ -5,10 +5,10 @@ import com.google.gson.annotations.SerializedName
 data class BrandModel(
     @SerializedName("id")
     val id : Int = 0,
-    @SerializedName("title")
-    val name : String = "",
+    @SerializedName("picUrl")
+    val picUrl :String = "",
     @SerializedName("price")
     val price : Int = 0,
-    @SerializedName("picUrl")
-    val imgUrl :String = ""
+    @SerializedName("title")
+    val title : String = ""
 )

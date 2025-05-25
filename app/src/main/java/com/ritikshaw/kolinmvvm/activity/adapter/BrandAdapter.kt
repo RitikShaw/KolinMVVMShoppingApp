@@ -46,7 +46,7 @@ class BrandAdapter():RecyclerView.Adapter<BrandAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = differ.currentList[position]
+        val item = differ.currentList[holder.adapterPosition]
 
         Glide.with(holder.itemView.context)
             .load(item.picUrl)
@@ -55,20 +55,20 @@ class BrandAdapter():RecyclerView.Adapter<BrandAdapter.ViewHolder>() {
 
         holder.binding.root.setOnClickListener {
             if (selectedDataPos==null){
-                selectedDataPos = position
-                lastSelectedDataPos = position
-                notifyItemChanged(position)
+                selectedDataPos = holder.adapterPosition
+                lastSelectedDataPos = holder.adapterPosition
+                notifyItemChanged(holder.adapterPosition)
             }
             else{
-                selectedDataPos = position
+                selectedDataPos = holder.adapterPosition
                 if (lastSelectedDataPos==selectedDataPos){
                     selectedDataPos = null
-                    notifyItemChanged(position)
+                    notifyItemChanged(holder.adapterPosition)
                 }
                 else{
                     notifyItemChanged(lastSelectedDataPos!!)
-                    lastSelectedDataPos = position
-                    notifyItemChanged(position)
+                    lastSelectedDataPos = holder.adapterPosition
+                    notifyItemChanged(holder.adapterPosition)
                 }
             }
         }
@@ -76,7 +76,7 @@ class BrandAdapter():RecyclerView.Adapter<BrandAdapter.ViewHolder>() {
         holder.binding.apply {
             tvName.gravity = Gravity.CENTER
             tvName.text = item.title
-            if (selectedDataPos!=null && selectedDataPos==position){
+            if (selectedDataPos!=null && selectedDataPos==holder.adapterPosition){
                 itemParent.setCardBackgroundColor(ContextCompat.getColor(holder.itemView.context,R.color.purple))
                 tvName.setTextColor(ContextCompat.getColor(holder.itemView.context,R.color.white))
                 ImageViewCompat.setImageTintList(imgProductIcon,ContextCompat.getColorStateList(holder.itemView.context,R.color.white))

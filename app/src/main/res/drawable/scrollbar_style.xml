@@ -2,7 +2,6 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:width="@dimen/_30sdp"
         android:left="@dimen/_10sdp"
         android:right="@dimen/_10sdp">
         <shape android:shape="rectangle">

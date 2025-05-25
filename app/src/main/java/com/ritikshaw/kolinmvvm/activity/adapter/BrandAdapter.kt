@@ -2,8 +2,11 @@ package com.ritikshaw.kolinmvvm.activity.adapter
 
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.widget.ImageViewCompat
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -12,11 +15,13 @@ import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.ritikshaw.kolinmvvm.R
 import com.ritikshaw.kolinmvvm.activity.model.BrandModel
 import com.ritikshaw.kolinmvvm.databinding.LayoutBrandlistRvItemBinding
+import androidx.core.view.isGone
 
 
 class BrandAdapter():RecyclerView.Adapter<BrandAdapter.ViewHolder>() {
 
-    private var lastSelectedData : BrandModel?=null
+    private var lastSelectedDataPos : Int ?=null
+    private var selectedDataPos : Int ?=null
     class ViewHolder(val binding: LayoutBrandlistRvItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
     }
@@ -49,19 +54,40 @@ class BrandAdapter():RecyclerView.Adapter<BrandAdapter.ViewHolder>() {
             .into(holder.binding.imgProductIcon)
 
         holder.binding.root.setOnClickListener {
-            lastSelectedData = item
+            if (selectedDataPos==null){
+                selectedDataPos = position
+                lastSelectedDataPos = position
+                notifyItemChanged(position)
+            }
+            else{
+                selectedDataPos = position
+                if (lastSelectedDataPos==selectedDataPos){
+                    selectedDataPos = null
+                    notifyItemChanged(position)
+                }
+                else{
+                    notifyItemChanged(lastSelectedDataPos!!)
+                    lastSelectedDataPos = position
+                    notifyItemChanged(position)
+                }
+            }
         }
 
         holder.binding.apply {
             tvName.gravity = Gravity.CENTER
             tvName.text = item.title
-            if (lastSelectedData!=null && item.picUrl == lastSelectedData!!.picUrl){
+            if (selectedDataPos!=null && selectedDataPos==position){
                 itemParent.setCardBackgroundColor(ContextCompat.getColor(holder.itemView.context,R.color.purple))
                 tvName.setTextColor(ContextCompat.getColor(holder.itemView.context,R.color.white))
+                ImageViewCompat.setImageTintList(imgProductIcon,ContextCompat.getColorStateList(holder.itemView.context,R.color.white))
+                tvName.visibility  = View.VISIBLE
             }
             else{
                 itemParent.setCardBackgroundColor(ContextCompat.getColor(holder.itemView.context,R.color.white))
                 tvName.setTextColor(ContextCompat.getColor(holder.itemView.context,R.color.black))
+                tvName.visibility  = View.GONE
+                ImageViewCompat.setImageTintList(imgProductIcon,ContextCompat.getColorStateList(holder.itemView.context,R.color.black))
+
             }
         }
     }

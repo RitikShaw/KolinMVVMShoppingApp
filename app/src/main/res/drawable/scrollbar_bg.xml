@@ -6,7 +6,7 @@
         android:right="@dimen/_10sdp">
         <shape>
             <corners android:radius="@dimen/_5sdp"/>
-            <solid android:color="@color/grey"/>
+            <solid android:color="@color/lightGrey"/>
         </shape>
     </item>
 </layer-list>

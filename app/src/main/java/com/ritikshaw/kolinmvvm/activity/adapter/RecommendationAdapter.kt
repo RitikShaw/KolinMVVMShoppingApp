@@ -10,7 +10,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.ritikshaw.kolinmvvm.activity.model.ItemData
 import com.ritikshaw.kolinmvvm.databinding.LayoutDashboardRvItemBinding
 
-class RecommendationAdapter() : RecyclerView.Adapter<RecommendationAdapter.ViewHolder>() {
+class RecommendationAdapter(private val onItemClick: (ItemData) -> Unit) : RecyclerView.Adapter<RecommendationAdapter.ViewHolder>() {
 
     private val diff_callback = object : DiffUtil.ItemCallback<ItemData>(){
         override fun areItemsTheSame(oldItem: ItemData, newItem: ItemData): Boolean {
@@ -26,10 +26,7 @@ class RecommendationAdapter() : RecyclerView.Adapter<RecommendationAdapter.ViewH
 
     fun submitList(list: List<ItemData>) = differ.submitList(list)
 
-    class ViewHolder(val binding : LayoutDashboardRvItemBinding) : RecyclerView.ViewHolder(binding.root) {
-
-
-    }
+    class ViewHolder(val binding : LayoutDashboardRvItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -46,11 +43,16 @@ class RecommendationAdapter() : RecyclerView.Adapter<RecommendationAdapter.ViewH
         holder.binding.apply {
             tvName.text = data.title
             tvPrice.text = "₹${data.price}"
+            tvRating.text = data.rating.toString()
         }
         Glide.with(holder.itemView.context)
             .load(data.picUrl[0])
             .transform(CenterInside())
             .into(holder.binding.imgProductIcon)
+
+        holder.itemView.setOnClickListener {
+            onItemClick.invoke(data)
+        }
     }
 
     override fun getItemCount(): Int {

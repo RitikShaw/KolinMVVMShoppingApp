@@ -22,9 +22,8 @@ class BrandAdapter():RecyclerView.Adapter<BrandAdapter.ViewHolder>() {
 
     private var lastSelectedDataPos : Int ?=null
     private var selectedDataPos : Int ?=null
-    class ViewHolder(val binding: LayoutBrandlistRvItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    }
+    class ViewHolder(val binding: LayoutBrandlistRvItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     private val _diffCallback = object : DiffUtil.ItemCallback<BrandModel>(){
         override fun areItemsTheSame(oldItem: BrandModel, newItem: BrandModel): Boolean {

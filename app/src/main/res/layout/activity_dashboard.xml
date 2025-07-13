@@ -219,7 +219,7 @@
                 android:text="Recommended"
                 android:gravity="center_vertical"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_16ssp"
+                android:textSize="@dimen/_15ssp"
                 android:textStyle="bold" />
 
             <TextView
@@ -240,6 +240,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="@dimen/_60sdp"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
             <androidx.recyclerview.widget.RecyclerView

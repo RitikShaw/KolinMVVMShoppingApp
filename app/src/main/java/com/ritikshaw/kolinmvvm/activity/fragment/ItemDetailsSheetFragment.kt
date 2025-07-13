@@ -90,10 +90,6 @@ class ItemDetailsSheetFragment : BottomSheetDialogFragment() {
 
     companion object {
         const val TAG = "ItemDetailsSheetFragment"
-        fun newInstance(bundle: Bundle?): ItemDetailsSheetFragment {
-            val fragment = ItemDetailsSheetFragment()
-            fragment.arguments = bundle
-            return fragment
-        }
+
     }
 }

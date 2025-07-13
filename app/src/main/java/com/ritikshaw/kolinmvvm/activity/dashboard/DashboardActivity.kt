@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ritikshaw.kolinmvvm.activity.adapter.BrandAdapter
 import com.ritikshaw.kolinmvvm.activity.adapter.RecommendationAdapter
 import com.ritikshaw.kolinmvvm.activity.adapter.SliderAdapter
+import com.ritikshaw.kolinmvvm.activity.fragment.ItemDetailsSheetFragment
 import com.ritikshaw.kolinmvvm.activity.model.BrandModel
 import com.ritikshaw.kolinmvvm.activity.model.ItemData
 import com.ritikshaw.kolinmvvm.activity.model.SliderModel
@@ -52,7 +53,13 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     private fun recommendedItems(items: List<ItemData>) {
-        recommendationAdapter= RecommendationAdapter()
+        recommendationAdapter= RecommendationAdapter(){
+            val bundle = Bundle()
+            bundle.putSerializable("item",it)
+            val itemDetailsSheetFragment = ItemDetailsSheetFragment()
+            itemDetailsSheetFragment.arguments = bundle
+            itemDetailsSheetFragment.show(supportFragmentManager,ItemDetailsSheetFragment.TAG)
+        }
         binding.rvRecommendedBrands.layoutManager = GridLayoutManager(this,2)
         binding.rvRecommendedBrands.adapter=recommendationAdapter
         recommendationAdapter.submitList(items)

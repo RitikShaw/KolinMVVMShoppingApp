@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KolinMVVM"
         tools:targetApi="31">
+
         <activity
             android:name=".activity.dashboard.DashboardActivity"
             android:exported="false" />
@@ -29,7 +30,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
     </application>
 
 </manifest>

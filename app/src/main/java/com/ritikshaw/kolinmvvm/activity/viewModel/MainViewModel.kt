@@ -27,7 +27,7 @@ class MainViewModel() : ViewModel() {
     val item : LiveData<List<ItemData>> = _item
 
     fun loadBanners(){
-        val bannerRef = firebaseDatabase.getReference("Banner")
+        val bannerRef = firebaseDatabase.getReference("banner")
         bannerRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val bannerList = mutableListOf<SliderModel>()
@@ -49,7 +49,7 @@ class MainViewModel() : ViewModel() {
     }
 
     fun loadBrands(){
-        val bannerRef = firebaseDatabase.getReference("Category")
+        val bannerRef = firebaseDatabase.getReference("brands")
         bannerRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val brandList = mutableListOf<BrandModel>()
@@ -71,8 +71,9 @@ class MainViewModel() : ViewModel() {
     }
 
     fun loadRecommendations(){
-        val bannerRef = firebaseDatabase.getReference("Items")
-        bannerRef.addValueEventListener(object : ValueEventListener {
+        val categoryRef = firebaseDatabase.getReference("categories")
+        val recommendation = categoryRef.child("shoe")
+        recommendation.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val itemList = mutableListOf<ItemData>()
                 for (brandSnapshot in snapshot.children) {

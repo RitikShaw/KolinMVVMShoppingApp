@@ -1,5 +1,6 @@
 package com.ritikshaw.kolinmvvm.activity.dashboard
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -13,12 +14,15 @@ import com.ritikshaw.kolinmvvm.activity.fragment.ItemDetailsSheetFragment
 import com.ritikshaw.kolinmvvm.activity.model.BrandModel
 import com.ritikshaw.kolinmvvm.activity.model.ItemData
 import com.ritikshaw.kolinmvvm.activity.model.SliderModel
+import com.ritikshaw.kolinmvvm.activity.profile.ProfileActivity
 import com.ritikshaw.kolinmvvm.activity.viewModel.MainViewModel
+import com.ritikshaw.kolinmvvm.activity.viewModel.SharedPreferenceViewModel
 import com.ritikshaw.kolinmvvm.databinding.ActivityDashboardBinding
 
 class DashboardActivity : AppCompatActivity() {
 
     private val viewModel = MainViewModel()
+    private lateinit var sharedPreferenceViewModel : SharedPreferenceViewModel
     private lateinit var binding : ActivityDashboardBinding
     private lateinit var adapter : SliderAdapter
     private lateinit var brandAdapter : BrandAdapter
@@ -27,10 +31,23 @@ class DashboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        sharedPreferenceViewModel = SharedPreferenceViewModel(application)
+        getUserName()
         initBanner()
         initBrand()
         initRecommendations()
+
+        binding.userImage.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+            startActivity(intent)
+        }
+    }
+
+    private fun getUserName() {
+        sharedPreferenceViewModel.userNAme.observe(this, Observer{userName->
+            binding.userName.text = userName
+        })
     }
 
 

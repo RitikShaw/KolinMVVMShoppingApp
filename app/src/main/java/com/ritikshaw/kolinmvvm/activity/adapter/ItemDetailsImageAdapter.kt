@@ -5,6 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterInside
+import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.ritikshaw.kolinmvvm.databinding.ItemdetailsSliderimagesBinding
 
 class ItemDetailsImageAdapter(): RecyclerView.Adapter<ItemDetailsImageAdapter.ViewHolder>() {
@@ -38,14 +41,16 @@ class ItemDetailsImageAdapter(): RecyclerView.Adapter<ItemDetailsImageAdapter.Vi
         holder: ViewHolder,
         position: Int
     ) {
-        TODO("Not yet implemented")
+        val picUrl = diffUtill.currentList[position]
+        Glide.with(holder.itemView.context)
+            .load(picUrl)
+            .transform(FitCenter())
+            .into(holder.binding.image)
     }
 
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+        return diffUtill.currentList.size
     }
 
-    class ViewHolder(binding: ItemdetailsSliderimagesBinding) : RecyclerView.ViewHolder(binding.root) {
-
-    }
+    class ViewHolder(val binding: ItemdetailsSliderimagesBinding) : RecyclerView.ViewHolder(binding.root)
 }

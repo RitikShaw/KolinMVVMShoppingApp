@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.ritikshaw.kolinmvvm.MainActivity
 import com.ritikshaw.kolinmvvm.R
 import com.ritikshaw.kolinmvvm.activity.BaseActivity
+import com.ritikshaw.kolinmvvm.activity.authentication.AuthenticationActivity
 import com.ritikshaw.kolinmvvm.activity.dashboard.DashboardActivity
 import com.ritikshaw.kolinmvvm.databinding.ActivityIntroBinding
 
@@ -18,7 +19,7 @@ class IntroActivity : BaseActivity() {
         setContentView(binding.root)
 
         binding.start.setOnClickListener {
-            startActivity(Intent(this,DashboardActivity::class.java))
+            startActivity(Intent(this, AuthenticationActivity::class.java))
         }
     }
 }

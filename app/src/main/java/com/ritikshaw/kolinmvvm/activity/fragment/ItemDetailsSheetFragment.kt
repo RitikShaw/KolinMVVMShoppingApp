@@ -36,7 +36,18 @@ class ItemDetailsSheetFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         imageAdapter = ItemDetailsImageAdapter()
         val item = arguments?.getSerializable("item") as ItemData
-        binding.tvProdName.text = item.title
+        binding.apply {
+            tvProdName.text = item.title
+            tvRating.text = item.rating.toString()
+            tvPrice.text = "₹ ${item.price}"
+            tvDescription.text = item.description
+            rvItems.adapter = imageAdapter
+            imageAdapter.diffUtill.submitList(item.picUrl)
+
+            imgBack.setOnClickListener {
+                dismiss()
+            }
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -58,7 +69,7 @@ class ItemDetailsSheetFragment : BottomSheetDialogFragment() {
 
                     val displayMatrics = resources.displayMetrics
                     val height = displayMatrics.heightPixels
-                    val maxHeight = (height * 0.90).toInt()
+                    val maxHeight = (height * 0.80).toInt()
 
                     // Set full height
                     it.layoutParams.height = maxHeight
@@ -75,10 +86,10 @@ class ItemDetailsSheetFragment : BottomSheetDialogFragment() {
             val bottomSheet = it.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
             val displayMatrics = resources.displayMetrics
             val height = displayMatrics.heightPixels
-            val maxHeight = (height * 0.90).toInt()
+            val maxHeight = (height * 0.80).toInt()
             bottomSheet?.layoutParams?.height = maxHeight
             val window = it.window
-            window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, maxHeight)
+            window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         }
     }
 

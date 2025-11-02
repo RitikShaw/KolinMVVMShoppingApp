@@ -266,7 +266,7 @@
                         android:layout_centerVertical="true"
                         android:layout_toEndOf="@+id/textView4"
                         android:src="@drawable/arrow_forward"
-                        android:tint="@color/white" />
+                        app:tint="@color/white" />
                 </RelativeLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>

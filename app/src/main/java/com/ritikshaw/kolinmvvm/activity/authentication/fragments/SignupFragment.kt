@@ -4,24 +4,21 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log.d
 import android.util.Log.e
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.credentials.CredentialManager
-import androidx.credentials.GetCredentialResponse
 import androidx.credentials.exceptions.GetCredentialException
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.ritikshaw.kolinmvvm.activity.authentication.AuthenticationActivity
 import com.ritikshaw.kolinmvvm.activity.dashboard.DashboardActivity
 import com.ritikshaw.kolinmvvm.activity.viewModel.AuthenticationViewModel
 import com.ritikshaw.kolinmvvm.activity.viewModel.SharedPreferenceViewModel
 import com.ritikshaw.kolinmvvm.databinding.FragmentSignupBinding
 import com.ritikshaw.kolinmvvm.utills.AuthState
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 

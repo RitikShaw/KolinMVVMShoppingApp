@@ -1,13 +1,9 @@
 package com.ritikshaw.kolinmvvm.activity.intro
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.ritikshaw.kolinmvvm.MainActivity
-import com.ritikshaw.kolinmvvm.R
 import com.ritikshaw.kolinmvvm.activity.BaseActivity
 import com.ritikshaw.kolinmvvm.activity.authentication.AuthenticationActivity
-import com.ritikshaw.kolinmvvm.activity.dashboard.DashboardActivity
 import com.ritikshaw.kolinmvvm.databinding.ActivityIntroBinding
 
 class IntroActivity : BaseActivity() {

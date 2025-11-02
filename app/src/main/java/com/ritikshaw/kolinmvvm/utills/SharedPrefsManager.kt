@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
-import com.bumptech.glide.load.Transformation
 import com.google.gson.Gson
 import com.ritikshaw.kolinmvvm.activity.model.UserData
 

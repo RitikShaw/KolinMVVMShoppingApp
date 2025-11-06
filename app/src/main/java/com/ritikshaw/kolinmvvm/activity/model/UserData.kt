@@ -4,9 +4,9 @@ import java.io.Serializable
 
 data class UserData(
     val userId : String="",
-    val name : String="",
-    val email : String="",
-    val phoneNumber : String="",
+    var name : String="",
+    var email : String="",
+    var phoneNumber : String="",
     val profilePicture: String="",
     val password : String=""
 ) : Serializable {

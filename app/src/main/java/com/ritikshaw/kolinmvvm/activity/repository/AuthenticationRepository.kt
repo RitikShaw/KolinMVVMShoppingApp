@@ -1,5 +1,7 @@
 package com.ritikshaw.kolinmvvm.activity.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.DataSnapshot
@@ -7,9 +9,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.ritikshaw.kolinmvvm.activity.model.UserData
-import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.tasks.await
-import kotlin.coroutines.resume
 
 
 class AuthenticationRepository(
@@ -78,35 +78,27 @@ class AuthenticationRepository(
 
     }
 
-    suspend fun getUserFromFirebase(uId : String): Result<UserData>{
-        return suspendCancellableCoroutine { continuation->
-            val userRef = firebaseDatabase.getReference("userDetails")
-            val valueListener = object : ValueEventListener{
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val userData = snapshot.child(uId).getValue(UserData::class.java)
-                    if (userData!=null){
-                        if (continuation.isActive){
-                            continuation.resume(Result.success(userData))
-                        }
-                    }
-                    else{
-                        if (continuation.isActive){
-                            continuation.resume(Result.failure(Exception("User not found")))
-                        }
-                    }
-                }
+    fun getUserFromFirebase(uId : String): LiveData<Result<UserData>>{
 
-                override fun onCancelled(error: DatabaseError) {
-                    if (continuation.isActive){
-                        continuation.resume(Result.failure(Exception(error.message)))
-                    }
+        val liveData = MutableLiveData<Result<UserData>>()
+        val userRef = firebaseDatabase.getReference("userDetails")
+        val valueListener = object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val userData = snapshot.child(uId).getValue(UserData::class.java)
+                if (userData!=null){
+                    liveData.postValue(Result.success(userData))
+                }
+                else{
+                    liveData.postValue(Result.failure(Exception("User not found")))
                 }
             }
 
-            userRef.addValueEventListener(valueListener)
-            continuation.invokeOnCancellation {
-                userRef.removeEventListener(valueListener)
+            override fun onCancelled(error: DatabaseError) {
+                liveData.postValue(Result.failure(Exception(error.message)))
             }
         }
+        userRef.addValueEventListener(valueListener)
+
+        return liveData
     }
 }

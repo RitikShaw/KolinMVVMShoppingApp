@@ -18,4 +18,14 @@
         <item name="android:paddingStart">16dp</item>
         <item name="android:background">?attr/selectableItemBackground</item>
     </style>
+
+    <style name="TransparentBottomSheet" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <!-- This makes the dialog's window background transparent -->
+        <item name="bottomSheetStyle">@style/TransparentBottomSheetStyle</item>
+    </style>
+
+    <style name="TransparentBottomSheetStyle" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <!-- This makes the actual bottom sheet background transparent -->
+        <item name="android:background">@android:color/transparent</item>
+    </style>
 </resources>

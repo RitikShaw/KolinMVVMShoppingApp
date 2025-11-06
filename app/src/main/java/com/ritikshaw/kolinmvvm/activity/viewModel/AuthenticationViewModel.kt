@@ -110,19 +110,21 @@ class AuthenticationViewModel(
         viewModelScope.launch {
             _authStateSignUp.value = AuthState.Loading
             val result = authenticationRepository.createUserIntoFirebase(userData)
-            _authStateSignUp.value = result.fold(
+            result.fold(
                 onSuccess =  {
-                    val innerResult = authenticationRepository.getUserFromFirebase(userData.userId)
-                    innerResult.fold(
-                        onSuccess = { user->
-                            AuthState.Success(user)
-                        },
-                        onFailure = {
-                            AuthState.Error(it.message?:"Unknown Error")
-                        }
-                    )
+                    val observer = authenticationRepository.getUserFromFirebase(userData.userId)
+                    observer.observeForever { innerResult->
+                        innerResult.fold(
+                            onSuccess = { user->
+                                _authStateSignUp.value = AuthState.Success(user)
+                            },
+                            onFailure = {
+                                _authStateSignUp.value = AuthState.Error(it.message?:"Unknown Error")
+                            }
+                        )
+                    }
                 },
-                onFailure = { AuthState.Error(it.message?:"Unknown Error")}
+                onFailure = { _authStateSignUp.value = AuthState.Error(it.message?:"Unknown Error")}
             )
         }
     }
@@ -130,15 +132,17 @@ class AuthenticationViewModel(
     fun getUserDataFromFirebase(uId : String){
         viewModelScope.launch {
             _authStateLogin.value = AuthState.Loading
-            val result = authenticationRepository.getUserFromFirebase(uId)
-            _authStateLogin.value = result.fold(
-                onSuccess = { userData ->
-                    AuthState.Success(userData)
-                },
-                onFailure = {
-                    AuthState.Error(it.message?:"Unknown Error")
-                }
-            )
+            val observer = authenticationRepository.getUserFromFirebase(uId)
+            observer.observeForever { result->
+                _authStateLogin.value = result.fold(
+                    onSuccess = { userData ->
+                        AuthState.Success(userData)
+                    },
+                    onFailure = {
+                        AuthState.Error(it.message?:"Unknown Error")
+                    }
+                )
+            }
         }
     }
 

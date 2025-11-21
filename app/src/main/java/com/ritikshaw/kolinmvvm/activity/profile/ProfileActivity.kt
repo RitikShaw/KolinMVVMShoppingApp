@@ -1,20 +1,35 @@
 package com.ritikshaw.kolinmvvm.activity.profile
 
+import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.common.util.concurrent.ListenableFuture
+import com.ritikshaw.kolinmvvm.activity.dashboard.DashboardActivity
+import com.ritikshaw.kolinmvvm.activity.intro.IntroActivity
 import com.ritikshaw.kolinmvvm.activity.model.UserData
+import com.ritikshaw.kolinmvvm.activity.viewModel.CameraSharedViewModel
 import com.ritikshaw.kolinmvvm.activity.viewModel.ProfileViewModel
 import com.ritikshaw.kolinmvvm.activity.viewModel.SharedPreferenceViewModel
 import com.ritikshaw.kolinmvvm.databinding.ActivityProfileBinding
 import com.ritikshaw.kolinmvvm.databinding.BottomsheetProfileUpdateBinding
 import com.ritikshaw.kolinmvvm.utills.AuthState
+import com.ritikshaw.kolinmvvm.utills.CameraDialogFragment
 import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
 
 class ProfileActivity : AppCompatActivity() {
     private val binding : ActivityProfileBinding by lazy { ActivityProfileBinding.inflate(layoutInflater) }
@@ -22,10 +37,22 @@ class ProfileActivity : AppCompatActivity() {
     private val profileViewModel : ProfileViewModel by viewModels()
     private lateinit var sharedViewModel : SharedPreferenceViewModel
     private var userData = UserData()
+
+    private val cameraViewModel : CameraSharedViewModel by viewModels()
+    private val requestPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                CameraDialogFragment().show(supportFragmentManager, "CameraDialog")
+            } else {
+                Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         sharedViewModel = SharedPreferenceViewModel(application = application)
+
 
 
         sharedViewModel.getUserData.observe(this, Observer{ userData ->
@@ -33,6 +60,7 @@ class ProfileActivity : AppCompatActivity() {
         })
 
         getUserData()
+        getCapturedImage()
 
         val bottomSheetDialog = BottomSheetDialog(this)
         val bottomSheetBinding = BottomsheetProfileUpdateBinding.inflate(layoutInflater)
@@ -50,16 +78,21 @@ class ProfileActivity : AppCompatActivity() {
                 bottomSheetDialog.show()
             }
 
-            tvEmail.setOnClickListener {
-                bottomSheetBinding.tilLabel.hint = "Email"
-                bottomSheetBinding.etInput.setText(tvEmail.text)
-                bottomSheetDialog.show()
-            }
-
             phone.setOnClickListener {
                 bottomSheetBinding.tilLabel.hint = "Phone"
                 bottomSheetBinding.etInput.setText(phone.text)
                 bottomSheetDialog.show()
+            }
+
+            profileImgEdit.setOnClickListener {
+                requestPermission.launch(android.Manifest.permission.CAMERA)
+            }
+
+            tvLogOut.setOnClickListener {
+                sharedViewModel.logout()
+                val intent = Intent(this@ProfileActivity, IntroActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
             }
 
         }
@@ -71,6 +104,21 @@ class ProfileActivity : AppCompatActivity() {
             }
             updateProfile(bottomSheetBinding.tilLabel.hint.toString(),bottomSheetBinding.etInput.text.toString())
             bottomSheetDialog.dismiss()
+        }
+    }
+
+    private fun getCapturedImage() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                cameraViewModel.bitmap.collect { bitmap ->
+                    if (bitmap!=null){
+                        val baos = ByteArrayOutputStream()
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+                        val byteArray = baos.toByteArray()
+                        profileViewModel.uploadImage(byteArray,userData)
+                    }
+                }
+            }
         }
     }
 
@@ -102,7 +150,6 @@ class ProfileActivity : AppCompatActivity() {
             profileViewModel.updateProfile(updatedUserData)
 
         } else {
-            // This is a good practice to handle cases where data might not be loaded yet.
             Toast.makeText(this, "Could not get user data to perform update.", Toast.LENGTH_SHORT).show()
         }
     }
@@ -114,6 +161,10 @@ class ProfileActivity : AppCompatActivity() {
                 when(profileState){
                     is AuthState.Loading-> {}
                     is AuthState.Success-> {
+                        Glide.with(this@ProfileActivity)
+                            .load(profileState.userData.profilePicture)
+                            .transform(FitCenter())
+                            .into(binding.profileImage)
                         userData = profileState.userData
                         binding.tvEmail.text = profileState.userData.email
                         binding.profileName.text = profileState.userData.name

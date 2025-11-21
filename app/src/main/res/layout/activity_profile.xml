@@ -18,38 +18,61 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
-        <com.mikhaellopez.circularimageview.CircularImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/back"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp"
-            android:scaleType="centerCrop"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.13"
+            app:layout_constraintDimensionRatio="1:1"
+            android:scaleType="centerInside"
             android:layout_margin="@dimen/_10sdp"
+            app:shapeAppearance="@style/Circular"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:src="@drawable/back"/>
         <!-- Profile Image -->
-        <com.mikhaellopez.circularimageview.CircularImageView
-            android:id="@+id/profile_image"
-            android:layout_width="@dimen/_80sdp"
-            android:layout_height="@dimen/_80sdp"
-            android:scaleType="centerCrop"
-            app:civ_circle_color="@color/white"
+        <FrameLayout
+            android:id="@+id/fl_profileImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_person_placeholder" />
+            app:layout_constraintTop_toTopOf="parent">
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/profile_image"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_80sdp"
+                android:scaleType="centerCrop"
+                app:civ_circle_color="@color/white"
+                android:background="@color/white"
+                app:shapeAppearance="@style/Circular"
+                app:srcCompat="@drawable/ic_person_placeholder" />
+            <ImageView
+                android:id="@+id/profileImgEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_edit"
+                android:layout_gravity="end"
+                app:tint="@color/white" />
+        </FrameLayout>
 
-        <com.mikhaellopez.circularimageview.CircularImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/cart"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.13"
+            app:layout_constraintDimensionRatio="1:1"
             android:layout_margin="@dimen/_10sdp"
-            app:civ_circle_color="@color/white"
+            android:background="@color/lightGrey"
+            android:padding="@dimen/_2sdp"
             android:scaleType="centerInside"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/cart_checkout" />
+            app:shapeAppearance="@style/Circular"
+            app:srcCompat="@drawable/cart_checkout"
+            app:strokeColor="@color/white"
+            app:strokeWidth="@dimen/_2sdp" />
         <!-- Name -->
         <TextView
             android:id="@+id/profile_name"
@@ -64,7 +87,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profile_image" />
+            app:layout_constraintTop_toBottomOf="@+id/fl_profileImg" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -90,8 +113,7 @@
             app:drawableStartCompat="@drawable/ic_email"
             tools:text="Email Id"
             android:gravity="center_vertical"
-            android:drawablePadding="@dimen/_10sdp"
-            app:drawableEndCompat="@drawable/ic_edit" />
+            android:drawablePadding="@dimen/_10sdp"/>
 
         <!-- Address Management -->
         <TextView

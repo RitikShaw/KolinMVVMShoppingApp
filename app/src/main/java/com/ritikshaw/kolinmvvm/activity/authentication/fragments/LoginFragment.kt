@@ -71,8 +71,9 @@ class LoginFragment : Fragment() {
                         // Navigate to the main part of your app
                         sharedPreferenceViewModel.saveUserData(state.userData)
                         Toast.makeText(requireContext(), "Log-in Successful!", Toast.LENGTH_LONG).show()
-                        requireActivity().startActivity(Intent(requireContext(), DashboardActivity::class.java))
-                        requireActivity().finish()
+                        val intent = Intent(requireActivity(), DashboardActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
                     }
                     is AuthState.Error -> {
                         // Show an error message

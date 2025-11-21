@@ -67,8 +67,9 @@ class SignupFragment : Fragment() {
                         sharedPreferenceViewModel.saveUserData(authState.userData)
                         Toast.makeText(requireContext(), "Sign-in Successful!", Toast.LENGTH_LONG)
                             .show()
-                        requireActivity().startActivity(Intent(requireContext(), DashboardActivity::class.java))
-                        requireActivity().finish()
+                        val intent = Intent(requireActivity(), DashboardActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
 
                     }
 

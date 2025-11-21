@@ -50,4 +50,16 @@ class ProfileViewModel(
             )
         }
     }
+
+    fun uploadImage(byteArray: ByteArray,userData: UserData){
+        viewModelScope.launch {
+            val response = profileRepository.uploadImage(byteArray,userData)
+            response.onSuccess {
+                updateProfile(userData.copy(profilePicture = it))
+            }
+            response.onFailure {
+                _profileState.value = AuthState.Error(it.message?:"Unknown Error")
+            }
+        }
+    }
 }

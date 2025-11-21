@@ -12,8 +12,12 @@ class SharedPreferenceViewModel(application: Application) : AndroidViewModel(app
     val getUserData = sharedPrefsManager.getUserData()
     val userNAme = sharedPrefsManager.userName
 
-    suspend fun saveUserData(userData: UserData){
+    fun saveUserData(userData: UserData){
         sharedPrefsManager.saveUserDetails(userData)
+    }
+
+    fun logout(){
+        sharedPrefsManager.clearData()
     }
 
 }

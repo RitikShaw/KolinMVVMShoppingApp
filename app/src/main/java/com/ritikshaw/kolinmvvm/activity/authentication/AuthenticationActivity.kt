@@ -71,4 +71,9 @@ class AuthenticationActivity : AppCompatActivity() {
 
         return idToken
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finishAffinity()
+    }
 }

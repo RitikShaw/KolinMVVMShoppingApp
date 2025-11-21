@@ -51,7 +51,6 @@
                         android:id="@+id/img_back"
                         android:layout_width="@dimen/_40sdp"
                         android:layout_height="@dimen/_40sdp"
-                        app:shapeAppearanceOverlay="@style/Circular"
                         app:srcCompat="@drawable/back" />
 
                     <com.google.android.material.imageview.ShapeableImageView
@@ -59,7 +58,6 @@
                         android:layout_width="@dimen/_40sdp"
                         android:layout_height="@dimen/_40sdp"
                         android:layout_alignParentEnd="true"
-                        app:shapeAppearanceOverlay="@style/Circular"
                         app:srcCompat="@drawable/fav_icon" />
                 </RelativeLayout>
             </FrameLayout>
@@ -166,25 +164,17 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.7" />
 
-        <com.google.android.material.card.MaterialCardView
-            style="@style/Widget.Material3.CardView.Outlined"
+        <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_margin="@dimen/_3sdp"
-            android:outlineProvider="none"
-            app:cardElevation="@dimen/_2sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.12"
-            app:shapeAppearanceOverlay="@style/Circular">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="@dimen/_8sdp"
-                android:src="@drawable/add_to_cart" />
-        </com.google.android.material.card.MaterialCardView>
+            android:scaleType="centerInside"
+            android:background="@color/lightGrey"
+            app:shapeAppearance="@style/Circular"
+            android:src="@drawable/add_to_cart" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
 import com.ritikshaw.kolinmvvm.activity.model.UserData
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
@@ -53,5 +54,32 @@ class ProfileRepository(
                     }
                 }
         }
+    }
+
+    suspend fun uploadImage(biteArray : ByteArray,userData: UserData): Result<String>{
+        val imageRef = FirebaseStorage.getInstance().reference
+        val fileRef = imageRef.child("${userData.userId}.jpg")
+        return suspendCancellableCoroutine { continuation ->
+            fileRef.putBytes(biteArray)
+                .addOnSuccessListener {
+                    fileRef.downloadUrl.addOnSuccessListener { downloadUrl->
+                        if (continuation.isActive){
+                            continuation.resume(Result.success(downloadUrl.toString()))
+                        }
+                    }
+                        .addOnFailureListener {
+                            if (continuation.isActive){
+                                continuation.resume(Result.failure(Exception(it.message)))
+                            }
+                        }
+                }
+                .addOnFailureListener {
+                    if (continuation.isActive){
+                        continuation.resume(Result.failure(Exception(it.message)))
+                    }
+                }
+        }
+
+
     }
 }

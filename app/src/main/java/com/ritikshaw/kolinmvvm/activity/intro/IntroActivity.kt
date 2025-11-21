@@ -3,13 +3,11 @@ package com.ritikshaw.kolinmvvm.activity.intro
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.fragment.app.viewModels
 import com.ritikshaw.kolinmvvm.activity.BaseActivity
 import com.ritikshaw.kolinmvvm.activity.authentication.AuthenticationActivity
 import com.ritikshaw.kolinmvvm.activity.dashboard.DashboardActivity
 import com.ritikshaw.kolinmvvm.activity.viewModel.SharedPreferenceViewModel
 import com.ritikshaw.kolinmvvm.databinding.ActivityIntroBinding
-import kotlin.getValue
 
 class IntroActivity : BaseActivity() {
 

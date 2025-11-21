@@ -8,8 +8,6 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -17,8 +15,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.common.util.concurrent.ListenableFuture
-import com.ritikshaw.kolinmvvm.activity.dashboard.DashboardActivity
 import com.ritikshaw.kolinmvvm.activity.intro.IntroActivity
 import com.ritikshaw.kolinmvvm.activity.model.UserData
 import com.ritikshaw.kolinmvvm.activity.viewModel.CameraSharedViewModel

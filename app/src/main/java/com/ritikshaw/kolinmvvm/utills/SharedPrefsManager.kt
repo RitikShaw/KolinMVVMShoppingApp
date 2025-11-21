@@ -2,11 +2,11 @@ package com.ritikshaw.kolinmvvm.utills
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.core.content.edit
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import com.google.gson.Gson
 import com.ritikshaw.kolinmvvm.activity.model.UserData
-import androidx.core.content.edit
 
 class SharedPrefsManager(context: Context) {
 

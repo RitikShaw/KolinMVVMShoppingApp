@@ -90,9 +90,14 @@ class LoginFragment : Fragment() {
             val googleCredentialsBuilder = (activity as AuthenticationActivity).buildGoogleSignInRequest()
 
             lifecycleScope.launch {
-                val result = credentialManager.getCredential(requireContext(),googleCredentialsBuilder)
-                val idToken = (activity as AuthenticationActivity).handleGoogleSignInResult(result)
-                authenticationViewModel.loginInWithGoogle(idToken)
+                try {
+                    val result = credentialManager.getCredential(requireContext(),googleCredentialsBuilder)
+                    val idToken = (activity as AuthenticationActivity).handleGoogleSignInResult(result)
+                    authenticationViewModel.loginInWithGoogle(idToken)
+                }
+                catch (e: Exception){
+                    e.printStackTrace()
+                }
             }
         }
     }

@@ -74,7 +74,21 @@ class ProfileActivity : AppCompatActivity() {
                 bottomSheetDialog.show()
             }
 
-            phone.setOnClickListener {
+            tvEdit.setOnClickListener {
+                if (tvEdit.text.toString()=="Edit"){
+                    tvEdit.text = "Cancel"
+                    profileImgEdit.visibility = View.VISIBLE
+                    imgNameEdit.visibility = View.VISIBLE
+                    imgPhnEdit.visibility = View.VISIBLE
+                }
+                else{
+                    tvEdit.text = "Edit"
+                    profileImgEdit.visibility = View.GONE
+                    imgNameEdit.visibility = View.GONE
+                    imgPhnEdit.visibility = View.GONE
+                }
+            }
+            imgPhnEdit.setOnClickListener {
                 bottomSheetBinding.tilLabel.hint = "Phone"
                 bottomSheetBinding.etInput.setText(phone.text)
                 bottomSheetDialog.show()
@@ -89,6 +103,9 @@ class ProfileActivity : AppCompatActivity() {
                 val intent = Intent(this@ProfileActivity, IntroActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
+            }
+            back.setOnClickListener {
+                finish()
             }
 
         }
